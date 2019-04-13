@@ -14,10 +14,7 @@ def parse_json(_data, index):
         index += 1
       elif _data[index] in (' ', ','):
         index += 1
-      elif _data[index] == '[':
-        value, index = parse_json(_data, index)
-        _list.append(value)
-      elif _data[index] == '{':
+      elif _data[index] in ('[', '{'):
         value, index = parse_json(_data, index)
         _list.append(value)
       elif _data[index] == ']':
@@ -47,14 +44,11 @@ def parse_json(_data, index):
       index += 1
       while _data[index] in (':', ' '):
         index += 1
-      if _data[index] in '{':
+      if _data[index] in ('{', '['):
         value, index = parse_json(_data, index)
         _object[key] = value
       elif _data[index] == '}':
         open_cbrackets -= 1
-      elif _data[index] == '[':
-        value, index = parse_json(_data, index)
-        _object[key] = value
       elif _data[index] == '"':
         string = ''
         index += 1
@@ -87,6 +81,6 @@ data = {'arya': [None, 12.34, 'surname', 'first_name', {'alien': ['rahul', 'arya
 
 import json
 json_data = json.dumps(data)
-parsed_json = parse_json(json_data, 0)
+parsed_json = parse_json(json_data, 0)[0]
 
-# print (parsed_json)
+print (parsed_json)
